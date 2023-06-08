@@ -22,7 +22,14 @@ class DeveloperController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+          'name' => 'required',
+          'email' => 'required|email|unique:developers'
+        ]);
 
+        $developer = Developer::insert(['name'=> $request->name, 'email'=>$request->email]);
+
+        return response()->json($developer, 201);
     }
 
     /**
@@ -30,7 +37,9 @@ class DeveloperController extends Controller
      */
     public function show(string $id)
     {
+        $developer = Developer::findOrFail($id);
 
+        return response()->json($developer);
     }
 
     /**
@@ -38,7 +47,15 @@ class DeveloperController extends Controller
      */
     public function update(Request $request, string $id)
     {
+      $request->validate([
+        'name' => 'required',
+        'email' => 'required|email|unique:developers'
+      ]);
+      
+      $developer = Developer::findOrFail($id);
+      $developer->update(['name'=> $request->name, 'email'=>$request->email]);
 
+      return response()->json($developer);
     }
 
     /**
@@ -46,6 +63,9 @@ class DeveloperController extends Controller
      */
     public function destroy(string $id)
     {
+        $developer = Developer::findOrFail($id);
+        $developer->delete();
 
+        return response()->json(null, 204);
     }
 }

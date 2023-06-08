@@ -12,7 +12,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
+      $projects = Project::all();
 
+      return response()->json($projects);
     }
 
     /**
@@ -20,7 +22,14 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+      $request->validate([
+        'name' => 'required',
+        'email' => 'required|email|unique:develpers, email'
+      ]);
 
+      $project = Project::create($request->all());
+
+      return response()->json($project, 201);
     }
 
     /**
@@ -29,6 +38,8 @@ class ProjectController extends Controller
     public function show(string $id)
     {
         //
+        $project = Project::findOrFail($id);
+        return response()->json($project);
     }
 
     /**
@@ -37,6 +48,15 @@ class ProjectController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $request->validate([
+          'name' => 'required',
+          'description' => 'required',
+          'developer_id' => 'required|exists:developers,id'
+        ]);
+        $project = Project::findOrFail($id);
+        $project->update($request->all());
+
+        return response()->json($project);
     }
 
     /**
@@ -45,5 +65,9 @@ class ProjectController extends Controller
     public function destroy(string $id)
     {
         //
+        $project = Project::findOrFail($id);
+        $project->delete();
+
+        return response()->json(null, 204);
     }
 }
