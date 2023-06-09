@@ -81,6 +81,8 @@ const developerSlice = createSlice({
       .addCase(deleteDeveloperAsync.fulfilled, (state, action: PayloadAction<string>) => {
         state.status = 'succeeded';
         const developerId = action.payload;
+        console.log(developerId)
+        console.log(state.developers);
         state.developers = state.developers.filter((developer) => developer.id !== developerId);
       });
   },

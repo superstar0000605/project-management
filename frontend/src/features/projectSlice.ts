@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { ProjectType, ProjectResType } from '../global.type';
 import { api } from '../api/api';
+import { stat } from 'fs';
 
 export interface ProjectState {
   projects: ProjectResType[];
@@ -31,7 +32,7 @@ export const updateProjectAsync = createAsyncThunk('projects/updateProject', asy
   return response.data;
 });
 
-export const deleteProjectAsync = createAsyncThunk<string, string>('projects/deleteProject', async (projectId) => {
+export const deleteProjectAsync = createAsyncThunk('projects/deleteProject', async (projectId:string) => {
   await api.delete(`/projects/${projectId}`);
   return projectId;
 });

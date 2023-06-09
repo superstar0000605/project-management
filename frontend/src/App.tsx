@@ -11,8 +11,8 @@ import {
 import { Layout, Menu, Button, theme } from 'antd';
 import 'antd/dist/reset.css';
 import './App.css';
-import DeveloperList from './components/developer/DeveloperList';
-import ProjectList from './components/project/ProjectList';
+import DeveloperList from './components/developera/DeveloperList';
+import ProjectList from './components/projecta/ProjectList';
 
 
 const { Header, Sider, Content } = Layout;

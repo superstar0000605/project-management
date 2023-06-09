@@ -36,31 +36,30 @@ const ProjectList: React.FC = () => {
 
   useEffect(() => {
     let originData: ProjectTableType[] = [];
-    if (projects.length > 0) {
-      projects.map((project) => {
-        originData.push({
-          key: project.id,
-          title: project.title,
-          description: project.description,
-          developers: project.developers?.reduce((result, developer) => result += `${developer.name} (${developer.email}), ` , '').slice(0, -2),
-        });
-        return 0;
+
+    projects.map((project) => {
+      originData.push({
+        key: project.id,
+        title: project.title,
+        description: project.description,
+        developers: project.developers?.reduce((result, developer) => result += `${developer.name} (${developer.email}), `, '').slice(0, -2),
       });
-      setData(originData);
-    }
+      return 0;
+    });
+
+    setData(originData);
     let originDeveloperData: DeveloperTableType[] = [];
-    if (developers.length > 0) {
-      developers.map((developer) => {
-        originDeveloperData.push({
-          key: developer.id,
-          name: developer.name,
-          email:developer.email,
-          projects: '',
-        });
-        return 0;
+
+    developers.map((developer) => {
+      originDeveloperData.push({
+        key: developer.id,
+        name: developer.name,
+        email: developer.email,
+        projects: '',
       });
-      setDevelopersData(originDeveloperData);
-    }
+      return 0;
+    });
+    setDevelopersData(originDeveloperData);
   }, [projects, developers]);
 
 
@@ -84,14 +83,14 @@ const ProjectList: React.FC = () => {
   const handleDeleteButtonClick = (id: string) => {
     dispatch(deleteProjectAsync(id))
   }
-  const handleUpdateProject = async ({projectId, project}: {projectId:string, project:ProjectType}) => {
-    const response = await dispatch(updateProjectAsync({projectId, project}))
+  const handleUpdateProject = async ({ projectId, project }: { projectId: string, project: ProjectType }) => {
+    const response = await dispatch(updateProjectAsync({ projectId, project }))
     console.log(response)
     if (response.payload) setEditingId('');
     else alert("Title already exists");
   }
   const handleSelectDeveloper = (ids: string[]) => {
-    dispatch(assignDevelopersAsync({projectId: projectId, developerIds: ids}));
+    dispatch(assignDevelopersAsync({ projectId: projectId, developerIds: ids }));
   }
   const handleAssignDevelopers = (id: string) => {
     setProjectId(id);
