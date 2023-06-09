@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Form, Button } from 'antd';
 import {
-  UsergroupAddOutlined,
   FileAddOutlined,
 } from '@ant-design/icons';
 import { fetchProjectsAsync, createProjectAsync, updateProjectAsync, deleteProjectAsync, assignDevelopersAsync, selectProjects, selectProjectsStatus, selectProjectsError } from '../../features/projectSlice';
@@ -34,13 +33,7 @@ const ProjectList: React.FC = () => {
   useEffect(() => {
     dispatch(fetchProjectsAsync());
   }, [])
-  // useEffect(() => {
-  //   if (projectsError) {
-  //     if (projectsStatus === "failed") {
-  //       alert(projectsError)
-  //     }
-  //   }
-  // }, [projectsStatus])
+
   useEffect(() => {
     let originData: ProjectTableType[] = [];
     if (projects.length > 0) {
@@ -74,9 +67,7 @@ const ProjectList: React.FC = () => {
   const opnCreateProjectModal = () => {
     setIsModalOpen(true);
   }
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setProject({
@@ -88,7 +79,7 @@ const ProjectList: React.FC = () => {
     e.preventDefault();
     const response = await dispatch(createProjectAsync(project));
     if (response.payload) setIsModalOpen(false);
-    else alert(projectsError);
+    else alert("Title already exists");
   }
   const handleDeleteButtonClick = (id: string) => {
     dispatch(deleteProjectAsync(id))
@@ -97,7 +88,7 @@ const ProjectList: React.FC = () => {
     const response = await dispatch(updateProjectAsync({projectId, project}))
     console.log(response)
     if (response.payload) setEditingId('');
-    else alert(projectsError);
+    else alert("Title already exists");
   }
   const handleSelectDeveloper = (ids: string[]) => {
     dispatch(assignDevelopersAsync({projectId: projectId, developerIds: ids}));

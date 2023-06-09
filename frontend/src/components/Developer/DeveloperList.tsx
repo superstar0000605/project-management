@@ -26,7 +26,7 @@ const DeveloperList: React.FC = () => {
   const developersStatus = useSelector(selectDevelopersStatus);
   const developersError = useSelector(selectDevelopersError);
   const [data, setData] = useState<DeveloperTableType[]>([]);
-  // setData(originData);
+
   useEffect(() => {
     dispatch(fetchDevelopersAsync());
   }, [])
@@ -45,13 +45,6 @@ const DeveloperList: React.FC = () => {
     setData(originData);
   }, [developers]);
 
-  // useEffect(() => {
-  //   if (developersError) {
-  //     if (developersStatus === "failed") {
-  //       alert(developersError)
-  //     }
-  //   }
-  // }, [developersStatus])
   const opnCreateDeveloperModal = () => {
     setIsModalOpen(true);
   }
@@ -66,7 +59,7 @@ const DeveloperList: React.FC = () => {
   const handleCreateDeveloper = async (e: any) => {
     const response = await dispatch(createDeveloperAsync(developer));
     if (response.payload) setIsModalOpen(false);
-    else alert(developersError);
+    else alert("Email already exists");
   }
   const handleDeleteButtonClick = (id: string) => {
     dispatch(deleteDeveloperAsync(id))
@@ -74,7 +67,7 @@ const DeveloperList: React.FC = () => {
   const handleUpdateDeveloper = async (newDeveloper: { developerId: string, developer: DeveloperType }) => {
     const response = await dispatch(updateDeveloperAsync(newDeveloper))
     if (response.payload) setEditingId('');
-    else alert(developersError);
+    else alert("Email already exists");
   }
   return (
     <>
